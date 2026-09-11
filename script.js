@@ -32,6 +32,7 @@ if(mykoRow&&mykoPanel){
   mykoPanel.insertAdjacentElement('afterend',grannPanel);
   if(!document.querySelector('script[data-grann-models]')){
     const modelRenderer=document.createElement('script');
+    modelRenderer.type='module';
     modelRenderer.src='assets/grannfejden-models.js';
     modelRenderer.defer=true;
     modelRenderer.dataset.grannModels='';

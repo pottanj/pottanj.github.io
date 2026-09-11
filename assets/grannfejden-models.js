@@ -1,105 +1,22 @@
-(() => {
-  const TAU = Math.PI * 2;
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.min.js';
 
-  const shade = (hex, amount) => {
-    const value = parseInt(hex.slice(1), 16);
-    const channel = (shift) => Math.max(0, Math.min(255, ((value >> shift) & 255) + amount));
-    return `rgb(${channel(16)},${channel(8)},${channel(0)})`;
-  };
+const mat=(color,o={})=>new THREE.MeshStandardMaterial({color,roughness:o.roughness??.72,metalness:o.metalness??0,transparent:!!o.transparent,opacity:o.opacity??1,side:o.side});
+const box=(p,m,x,y,z,w,h,d)=>{const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);q.position.set(x,y,z);q.castShadow=q.receiveShadow=true;p.add(q);return q};
+const cyl=(p,m,x,y,z,r,h,n=16)=>{const q=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,n),m);q.position.set(x,y,z);q.castShadow=q.receiveShadow=true;p.add(q);return q};
+const torus=(p,m,x,y,z,r,t)=>{const q=new THREE.Mesh(new THREE.TorusGeometry(r,t,10,32),m);q.position.set(x,y,z);q.rotation.x=Math.PI/2;q.castShadow=true;p.add(q);return q};
+const cone=(p,m,x,y,z,r,h,n=12)=>{const q=new THREE.Mesh(new THREE.ConeGeometry(r,h,n),m);q.position.set(x,y,z);q.castShadow=true;p.add(q);return q};
 
-  const box = (parts, color, x, y, z, w, h, d) => {
-    const x0=x-w/2,x1=x+w/2,y0=y-h/2,y1=y+h/2,z0=z-d/2,z1=z+d/2;
-    const v=[[x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0],[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]];
-    parts.push(
-      {p:[v[0],v[1],v[2],v[3]],c:shade(color,-24)},
-      {p:[v[1],v[5],v[6],v[2]],c:shade(color,-10)},
-      {p:[v[5],v[4],v[7],v[6]],c:color},
-      {p:[v[4],v[0],v[3],v[7]],c:shade(color,-36)},
-      {p:[v[3],v[2],v[6],v[7]],c:shade(color,18)},
-      {p:[v[4],v[5],v[1],v[0]],c:shade(color,-42)}
-    );
-  };
+function coop(){
+ const r=new THREE.Group(),wood=mat('#9e673a'),dark=mat('#4e311b'),roofMat=mat('#3d434a'),dirt=mat('#d6ae76'),red=mat('#b5512b'),white=mat('#f6f0e4'),beak=mat('#ee9a1a'),comb=mat('#bd2424');box(r,dirt,0,.015,0,4.1,.02,4.1);const h=new THREE.Group();h.position.z=-.6;r.add(h);[[-.8,-.65],[.8,-.65],[-.8,.65],[.8,.65]].forEach(([x,z])=>box(h,dark,x,.35,z,.14,.7,.14));box(h,wood,0,1.25,0,1.8,1.25,1.5);const roof=new THREE.Mesh(new THREE.ConeGeometry(1.45,.8,4),roofMat);roof.position.y=2.25;roof.rotation.y=Math.PI/4;roof.scale.set(1.15,1,1.25);roof.castShadow=true;h.add(roof);box(h,dark,0,.9,.76,.42,.5,.04);const ramp=box(h,wood,0,.32,1.3,.38,.04,1.3);ramp.rotation.x=.52;for(let i=0;i<5;i++){const s=box(h,dark,0,.12+i*.1,1.65-i*.18,.34,.02,.04);s.rotation.x=.52}[[-2.1,-2.1],[2.1,-2.1],[2.1,2.1],[-2.1,2.1],[0,-2.1],[2.1,0],[0,2.1],[-2.1,0]].forEach(([x,z])=>cyl(r,dark,x,.425,z,.045,.85));const wire=mat('#889988',{side:THREE.DoubleSide});wire.wireframe=true;[[0,-2.1,0],[0,2.1,0],[-2.1,0,Math.PI/2],[2.1,0,Math.PI/2]].forEach(([x,z,ry])=>{const f=new THREE.Mesh(new THREE.PlaneGeometry(4.2,.75,8,3),wire);f.position.set(x,.4,z);f.rotation.y=ry;r.add(f)});
+ const chicken=(m,x,z,ry)=>{const g=new THREE.Group();g.position.set(x,.08,z);g.rotation.y=ry;r.add(g);const b=new THREE.Mesh(new THREE.DodecahedronGeometry(.14),m);b.position.y=.16;b.scale.set(.9,.9,1.2);g.add(b);box(g,m,0,.32,.14,.1,.12,.1);const n=cone(g,beak,0,.31,.23,.03,.08);n.rotation.x=Math.PI/2;box(g,comb,0,.4,.13,.025,.06,.09);[-.05,.05].forEach(l=>{box(g,beak,l,.055,0,.02,.11,.02);box(g,beak,l,.01,.025,.04,.015,.06)})};[[red,-1.1,.8,.5],[white,.9,1.2,2.3],[red,1.3,-.4,1.2],[white,-.9,-1.2,3.4],[red,.2,1.5,4.8]].forEach(a=>chicken(...a));return r;
+}
 
-  const cylinder = (parts, color, x, y, z, radius, height, segments=28) => {
-    const top=[],bottom=[];
-    for(let i=0;i<segments;i++){
-      const a=i/segments*TAU;
-      top.push([x+Math.cos(a)*radius,y+height/2,z+Math.sin(a)*radius]);
-      bottom.push([x+Math.cos(a)*radius,y-height/2,z+Math.sin(a)*radius]);
-    }
-    parts.push({p:top,c:shade(color,18)});
-    for(let i=0;i<segments;i++) parts.push({p:[bottom[i],bottom[(i+1)%segments],top[(i+1)%segments],top[i]],c:shade(color,Math.round(Math.cos(i/segments*TAU)*16)-16)});
-  };
+function pool(){const r=new THREE.Group(),paving=mat('#d8ccb0'),basin=mat('#92b7b2'),water=mat('#54b6bf',{roughness:.16,metalness:.08,transparent:true,opacity:.86}),trim=mat('#f1e6c9'),ring=mat('#e6b272'),metal=mat('#c5d0cc',{roughness:.2,metalness:.7});box(r,paving,0,.19,0,12.8,.35,14.1);box(r,basin,0,.36,0,8.7,.15,10.3);box(r,water,0,.47,0,8.2,.045,9.8);[-4.5,4.5].forEach(x=>box(r,trim,x,.51,0,.4,.18,10.7));[-5.35,5.35].forEach(z=>box(r,trim,0,.51,z,9.4,.18,.4));torus(r,ring,1.4,.65,1.6,.78,.23);[-.45,.45].forEach(x=>{cyl(r,metal,x,.96,-4.9,.06,1);const q=torus(r,metal,x,1.39,-4.9,.23,.05);q.rotation.x=Math.PI/2});return r}
 
-  const roof = (parts, color, x, y, z, w, d, rise) => {
-    parts.push(
-      {p:[[x-w/2,y,z-d/2],[x,y+rise,z-d/2],[x,y+rise,z+d/2],[x-w/2,y,z+d/2]],c:shade(color,8)},
-      {p:[[x,y+rise,z-d/2],[x+w/2,y,z-d/2],[x+w/2,y,z+d/2],[x,y+rise,z+d/2]],c:shade(color,-15)},
-      {p:[[x-w/2,y,z+d/2],[x,y+rise,z+d/2],[x+w/2,y,z+d/2]],c:shade(color,-28)},
-      {p:[[x+w/2,y,z-d/2],[x,y+rise,z-d/2],[x-w/2,y,z-d/2]],c:shade(color,-36)}
-    );
-  };
+function playhouse(){
+ const r=new THREE.Group(),wall=mat('#77927c'),trim=mat('#f5f1df',{roughness:.58}),roof=mat('#30363d'),door=mat('#d79a32'),floor=mat('#7f8fa6'),glass=mat('#8cb1b7',{transparent:true,opacity:.45,roughness:.12});box(r,floor,0,.05,-.75,2.4,.1,1.5);box(r,floor,-.6,.05,.5,1.2,.1,1);box(r,wall,-1.175,.65,-.75,.05,1.1,1.5);box(r,wall,1.175,.65,-.75,.05,1.1,1.5);box(r,wall,0,.65,-1.475,2.4,1.1,.05);box(r,wall,0,.65,-.025,2.4,1.1,.05);[[-1.2,-1.5],[1.2,-1.5],[-1.2,0],[1.2,0]].forEach(([x,z])=>box(r,trim,x,.65,z,.1,1.1,.1));const shape=new THREE.Shape([new THREE.Vector2(-.75,0),new THREE.Vector2(.75,0),new THREE.Vector2(0,.75)]),geo=new THREE.ExtrudeGeometry(shape,{depth:.05,bevelEnabled:false});[-1.2,1.2].forEach(x=>{const g=new THREE.Mesh(geo,wall);g.position.set(x,1.2,-.75);g.rotation.y=-Math.PI/2;r.add(g)});const panel=(x,y,z,w,d,rx,rz)=>{const p=box(r,roof,x,y,z,w,.06,d);p.rotation.set(rx,0,rz)};panel(0,1.49,-.29,2.6,1.3,Math.PI/4,0);panel(0,1.49,-1.21,2.6,1.3,-Math.PI/4,0);box(r,trim,0,1.96,-.75,2.72,.09,.1);const ps=new THREE.Shape([new THREE.Vector2(-.6,0),new THREE.Vector2(.6,0),new THREE.Vector2(0,.6)]),pg=new THREE.ExtrudeGeometry(ps,{depth:.05,bevelEnabled:false}),porch=new THREE.Mesh(pg,wall);porch.position.set(-.6,1.2,.975);r.add(porch);panel(-.95,1.45,.48,1,1.4,0,Math.PI/4);panel(-.25,1.45,.48,1,1.4,0,-Math.PI/4);box(r,trim,-.6,1.82,.48,.08,.1,1.52);[[-1.15,.95],[-.05,.95],[-1.15,.05]].forEach(([x,z])=>box(r,trim,x,.65,z,.08,1.1,.08));[.15,.55].forEach(y=>{box(r,trim,-.6,y,.95,1.02,.04,.04);box(r,trim,-1.15,y,.5,.04,.04,.82)});for(let i=1;i<=4;i++){box(r,trim,-1.15+i*.2,.35,.95,.03,.36,.03);box(r,trim,-1.15,.35,.05+i*.16,.03,.36,.03)}box(r,trim,-.6,.625,.015,.62,1.07,.08);box(r,door,-.6,.575,.065,.5,.95,.04);const handle=cyl(r,mat('#574b3b',{roughness:.35,metalness:.5}),-.4,.58,.1,.025,.05);handle.rotation.x=Math.PI/2;box(r,trim,.6,.7,.025,.52,.52,.08);box(r,glass,.6,.7,.075,.4,.4,.025);box(r,trim,.6,.7,.1,.4,.03,.035);box(r,trim,.6,.7,.1,.03,.4,.035);const rf=cyl(r,trim,-.6,1.47,1.01,.16,.08);rf.rotation.x=Math.PI/2;const rg=cyl(r,glass,-.6,1.47,1.06,.12,.03);rg.rotation.x=Math.PI/2;box(r,trim,-.6,1.47,1.09,.24,.02,.025);box(r,trim,-.6,1.47,1.09,.02,.24,.025);return r;
+}
 
-  const buildModel = (type) => {
-    const p=[];
-    if(type==='pool'){
-      box(p,'#e9dfc8',0,.14,0,3.8,.28,2.4);
-      box(p,'#64aeb4',0,.30,0,3.28,.08,1.88);
-      for(const x of [-1.72,1.72]) box(p,'#f5efdf',x,.34,0,.22,.12,2.2);
-      for(const z of [-1.02,1.02]) box(p,'#f5efdf',0,.34,z,3.25,.12,.22);
-      cylinder(p,'#d7a86d',.65,.48,.32,.30,.09,24);
-    } else if(type==='coop'){
-      for(const x of [-.62,.62]) for(const z of [-.46,.46]) box(p,'#71513b',x,.42,z,.1,.84,.1);
-      box(p,'#b97949',0,.92,0,1.55,1.1,1.25);
-      roof(p,'#4d443e',0,1.48,0,1.9,1.55,.58);
-      box(p,'#eee4ca',0,.88,.635,.46,.56,.05);
-      box(p,'#4b5d50',0,.89,.67,.06,.48,.04);
-      box(p,'#4b5d50',0,.89,.67,.38,.06,.04);
-      box(p,'#9b6c48',0,.23,.82,.58,.08,.95);
-    } else {
-      box(p,'#cc7e68',0,1,0,2.3,1.8,2);
-      roof(p,'#514a45',0,1.9,0,2.7,2.45,.8);
-      box(p,'#eef0df',0,.82,1.025,.72,1.35,.06);
-      box(p,'#6d8b7c',0,.82,1.06,.08,1.18,.04);
-      box(p,'#6d8b7c',0,.98,1.06,.58,.08,.04);
-      for(const x of [-.78,.78]){
-        box(p,'#efe7d5',x,1.18,1.03,.48,.54,.05);
-        box(p,'#86a9ad',x,1.18,1.06,.36,.42,.04);
-      }
-    }
-    return p;
-  };
-
-  const project = (point, angle, width, height, scale) => {
-    const [x,y,z]=point, ca=Math.cos(angle),sa=Math.sin(angle);
-    const rx=x*ca-z*sa, rz=x*sa+z*ca;
-    const tilt=-.34, ct=Math.cos(tilt),st=Math.sin(tilt);
-    const ry=y*ct-rz*st, depth=y*st+rz*ct;
-    const perspective=1/(1+depth*.035);
-    return {x:width/2+rx*scale*perspective,y:height*.56-ry*scale*perspective,z:depth};
-  };
-
-  const mount = (canvas) => {
-    const ctx=canvas.getContext('2d');
-    const parts=buildModel(canvas.dataset.model);
-    let angle=-.55, dragging=false, lastX=0, active=true;
-    const resize=()=>{const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.max(1,Math.round(r.width*dpr));canvas.height=Math.max(1,Math.round(r.height*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);};
-    new ResizeObserver(resize).observe(canvas); resize();
-    new IntersectionObserver(([entry])=>active=entry.isIntersecting,{threshold:.08}).observe(canvas);
-    canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;canvas.setPointerCapture(e.pointerId)});
-    canvas.addEventListener('pointermove',e=>{if(dragging){angle+=(e.clientX-lastX)*.012;lastX=e.clientX}});
-    canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
-    const draw=()=>{
-      const w=canvas.clientWidth,h=canvas.clientHeight,scale=Math.min(w,h)/(canvas.dataset.model==='pool'?4.8:4.5);
-      ctx.clearRect(0,0,w,h);
-      const floor=ctx.createRadialGradient(w/2,h*.72,0,w/2,h*.72,w*.36);floor.addColorStop(0,'rgba(10,20,15,.28)');floor.addColorStop(1,'rgba(10,20,15,0)');ctx.fillStyle=floor;ctx.beginPath();ctx.ellipse(w/2,h*.72,w*.32,h*.08,0,0,TAU);ctx.fill();
-      parts.map(face=>{const points=face.p.map(point=>project(point,angle,w,h,scale));return {...face,points,depth:points.reduce((s,p)=>s+p.z,0)/points.length}}).sort((a,b)=>a.depth-b.depth).forEach(face=>{ctx.beginPath();face.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fillStyle=face.c;ctx.fill();ctx.strokeStyle='rgba(244,240,226,.12)';ctx.lineWidth=.7;ctx.stroke()});
-      if(active&&!dragging&&!reduceMotion) angle+=.0034;
-      requestAnimationFrame(draw);
-    }; draw();
-  };
-
-  const init=()=>document.querySelectorAll('canvas[data-grann-model]').forEach(mount);
-  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init,{once:true}):init();
-})();
+const builders={coop,pool,playhouse};
+function mount(canvas){if(canvas.dataset.mounted)return;canvas.dataset.mounted='true';const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(34,1,.1,100);camera.position.set(7,5.2,8);camera.lookAt(0,1,0);scene.add(new THREE.HemisphereLight('#f6f1df','#17221c',2.2));const key=new THREE.DirectionalLight('#fff4d8',3.2);key.position.set(5,9,6);key.castShadow=true;scene.add(key);const fill=new THREE.DirectionalLight('#9dbb99',1.1);fill.position.set(-6,3,-4);scene.add(fill);const model=builders[canvas.dataset.model]();scene.add(model);const bounds=new THREE.Box3().setFromObject(model),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());model.position.sub(center);model.position.y+=size.y/2;model.scale.setScalar(3.8/Math.max(size.x,size.y,size.z));const ground=new THREE.Mesh(new THREE.CircleGeometry(3.7,64),new THREE.ShadowMaterial({color:'#07100c',opacity:.22}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);let drag=false,lastX=0,target=canvas.dataset.model==='pool'?.35:-.35,rotation=target;canvas.addEventListener('pointerdown',e=>{drag=true;lastX=e.clientX;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(drag){target+=(e.clientX-lastX)*.012;lastX=e.clientX}});canvas.addEventListener('pointerup',()=>drag=false);canvas.addEventListener('pointercancel',()=>drag=false);const resize=()=>{const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);if(canvas.width!==Math.round(w*renderer.getPixelRatio())||canvas.height!==Math.round(h*renderer.getPixelRatio()))renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()};const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const tick=()=>{resize();if(!drag&&!reduced)target+=.0022;rotation+=(target-rotation)*.1;model.rotation.y=rotation;renderer.render(scene,camera);requestAnimationFrame(tick)};tick()}
+document.querySelectorAll('canvas[data-grann-model]').forEach(mount);
