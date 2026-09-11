@@ -1,5 +1,26 @@
 const root = document.documentElement;
 const cursor = document.querySelector('.cursor');
+
+const mykoRow=document.querySelector('.project[href="#myko"]');
+const mykoPanel=document.querySelector('details#myko');
+if(mykoRow&&mykoPanel){
+  mykoRow.querySelector('h3').textContent='MYKO';
+  mykoRow.querySelector('.project-question').textContent='Ett spelbart skogsäventyr med fokus på rörelse, onboarding och tydlig återkoppling.';
+  mykoPanel.querySelector(':scope>summary').textContent='MYKO';
+  mykoPanel.querySelector('.game-design-intro')?.remove();
+  const grannRow=mykoRow.cloneNode(true);
+  grannRow.href='#grannfejden';
+  grannRow.querySelector('.project-no').textContent='14';
+  grannRow.querySelector('h3').textContent='Grannfejden';
+  grannRow.querySelector('.project-title p').textContent='3D · Interaction Design · Game Systems';
+  grannRow.querySelector('.project-question').textContent='Ett bostadskvarter som blir en social spelplats genom rumslig tydlighet och levande respons.';
+  mykoRow.insertAdjacentElement('afterend',grannRow);
+  const grannPanel=document.createElement('details');
+  grannPanel.className='case-card';
+  grannPanel.id='grannfejden';
+  grannPanel.innerHTML=`<summary>Grannfejden</summary><div class="case-content"><section class="grannfejden-case" aria-labelledby="grannfejden-title"><div class="grannfejden-head"><span>SPEL 02 / GRUPPROJEKT / 3D</span><div><h3 id="grannfejden-title">Grannfejden.</h3><p>Ett spelprojekt där ett bostadskvarter blir en social spelplats. Mitt arbete låg i mötet mellan visuell gestaltning, rumslig struktur och interaktion, från tidiga idéer till en fungerande 3D-miljö.</p></div></div><div class="grannfejden-role"><p><span>MIN ROLL</span>Visuell och interaktiv utveckling</p><p><span>FOKUS</span>3D-miljö, systemlogik och spelarrespons</p><p><span>ARBETSSÄTT</span>Skiss, modellering och iteration i fungerande miljö</p></div><div class="grannfejden-contribution"><article><span>01 / KONCEPT</span><h4>Från idé till spelvärld.</h4><p>Jag tog en drivande roll i idéarbetet och var med och satte ton, inramning och känsla för kvarteret Björkbacken.</p></article><article><span>02 / RUMSLIG STRUKTUR</span><h4>En miljö som går att läsa.</h4><p>Jag planerade spelytans tomter och objektplacering för att skapa en balanserad miljö där spelaren enkelt kan orientera sig.</p></article><article><span>03 / VISUELL FORM</span><h4>Ett sammanhållet uttryck.</h4><p>Jag samordnade spelets visuella stil och skapade 3D-objekt som byggde upp atmosfär och ett tydligt formspråk.</p></article><article><span>04 / SYSTEM</span><h4>Modulärt utan kollisioner.</h4><p>Jag utvecklade logiken för hur husdelar och uppgraderingar kan byggas på under spelets gång utan att krocka med tomtens övriga objekt.</p></article><article><span>05 / INTERAKTION</span><h4>Små svar som skapar närvaro.</h4><p>Jag formgav föreningsmötet och utvecklade detaljer där karaktärernas huvuden följer spelarens musrörelser. Jag animerade även fåglar med naturliga flygmönster.</p></article></div><div class="grannfejden-learning"><span>VAD JAG TAR VIDARE</span><p>Projektet visade hur tydliga ramar och lekfull respons behöver fungera tillsammans. Genom att testa skisser direkt i 3D-miljön kunde vi snabbt se vad som fungerade, och hur subtil visuell återkoppling hjälper spelaren att känna sig närvarande.</p></div></section></div>`;
+  mykoPanel.insertAdjacentElement('afterend',grannPanel);
+}
 const depths = [...document.querySelectorAll('[data-depth]')];
 let tx=0,ty=0,cx=0,cy=0;
 window.addEventListener('pointermove',e=>{ tx=(e.clientX/innerWidth-.5)*2; ty=(e.clientY/innerHeight-.5)*2; cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
@@ -379,7 +400,7 @@ const projectLens={
   research:['duro','academedia','kommunal','foodora','analytics','storyapp'],
   ui:['duro','academedia','kommunal','storyapp','webportfolio','parking'],
   service:['foodora','cinema','parking'],
-  game:['myko','gamecraft'],
+  game:['myko','grannfejden','gamecraft'],
   concept:['aether','gamecraft','wmg','cinema']
 };
 const lensLabels={selected:'Utvalda case',all:'Alla projekt',research:'Research',ui:'UX/UI',service:'Tjänstedesign',game:'Speldesign',concept:'Koncept'};
@@ -451,7 +472,7 @@ if(gameDesignDirection){
 }
 const gameDesignSummary=document.querySelector('.project[href="#myko"] .project-question');
 if(gameDesignSummary){
-  gameDesignSummary.textContent='Två spelprojekt om meningsfulla val, tydliga system och respons som drar in spelaren.';
+  gameDesignSummary.textContent='Ett spelbart skogsäventyr med fokus på rörelse, onboarding och tydlig återkoppling.';
 }
 if(gameDesignContent&&!document.querySelector('#grannfejden')){
   const grannfejden=document.createElement('section');
@@ -544,7 +565,7 @@ englishCopy['Fungerar inte spelet här?']='Game not working here?';
 englishCopy['Öppna MYKO i en ny flik ↗']='Open MYKO in a new tab ↗';
 englishCopy['Speldesign']='Game Design';
 englishCopy['Meningsfulla val, tydliga core loops och spelbara upplevelser. MYKO är det första spelet.']='Meaningful choices, clear core loops and playable experiences. MYKO is the first game.';
-englishCopy['Två spelprojekt om meningsfulla val, tydliga system och respons som drar in spelaren.']='Two game projects about meaningful choices, clear systems and feedback that draws the player in.';
+englishCopy['Ett spelbart skogsäventyr med fokus på rörelse, onboarding och tydlig återkoppling.']='A playable woodland adventure focused on movement, onboarding and clear feedback.';
 englishCopy['15 YH-POÄNG / EXPERIENCE DESIGN']='15 HVE CREDITS / EXPERIENCE DESIGN';
 englishCopy['Hur skapar ett spel deltagande?']='How does a game create engagement?';
 englishCopy['Speldesign handlar om mer än regler och grafik. Kursen utforskar hur mekaniker, val och återkoppling formar spelarens beteende, upplevelse och vilja att fortsätta.']='Game design is about more than rules and graphics. The course explores how mechanics, choices and feedback shape player behaviour, experience and motivation to continue.';
@@ -558,6 +579,7 @@ englishCopy['Onboarding']='Onboarding';
 englishCopy['Tutorials och återkoppling som lär ut spelet genom handling istället för långa instruktioner.']='Tutorials and feedback that teach through action instead of lengthy instructions.';
 englishCopy['Sektionen växer med kursen. MYKO är spel 01 och nästa spel får en egen del med samma fokus på mekanik, spelarupplevelse och reflektion.']='This section will grow with the course. MYKO is game 01, and the next game will receive its own section with the same focus on mechanics, player experience and reflection.';
 englishCopy['Två spel, två olika perspektiv på spelarupplevelsen. MYKO utforskar rörelse och onboarding. Grannfejden fokuserar på rumslig tydlighet, modulära system och en levande 3D-värld.']='Two games, two perspectives on player experience. MYKO explores movement and onboarding. Grannfejden focuses on spatial clarity, modular systems and a living 3D world.';
+englishCopy['Ett bostadskvarter som blir en social spelplats genom rumslig tydlighet och levande respons.']='A residential neighbourhood becomes a social play space through spatial clarity and responsive details.';
 englishCopy['SPEL 02 / GRUPPROJEKT / 3D']='GAME 02 / GROUP PROJECT / 3D';
 englishCopy['Grannfejden.']='Grannfejden.';
 englishCopy['Ett spelprojekt där ett bostadskvarter blir en social spelplats. Mitt arbete låg i mötet mellan visuell gestaltning, rumslig struktur och interaktion, från tidiga idéer till en fungerande 3D-miljö.']='A game project where a residential neighbourhood becomes a social play space. My work connected visual design, spatial structure and interaction, from early ideas to a functioning 3D environment.';
