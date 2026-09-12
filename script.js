@@ -453,7 +453,11 @@ function setProjectLens(lens,userInitiated=false){
   });
   if(lensStatus){
     const english=document.documentElement.lang==='en';
-    lensStatus.textContent=active==='selected'?(english?'3 selected cases':'3 utvalda case'):(english?`${projectLens[active].length} projects in ${lensLabelsEnglish[active]}.`:`${projectLens[active].length} projekt inom ${lensLabels[active].toLowerCase()}.`);
+    const visibleCount=projectLens[active].length;
+    const totalCount=projectLens.all.length;
+    lensStatus.textContent=active==='all'
+      ?(english?`Showing all ${totalCount} projects`:`Visar alla ${totalCount} projekt`)
+      :(english?`Showing ${visibleCount} of ${totalCount} projects · ${lensLabelsEnglish[active]}`:`Visar ${visibleCount} av ${totalCount} projekt · ${lensLabels[active]}`);
     lensStatus.classList.remove('is-updated');
     requestAnimationFrame(()=>lensStatus.classList.add('is-updated'));
   }
@@ -663,6 +667,9 @@ englishCopy['03 / LAB / GRUPPROJEKT']='03 / LAB / GROUP PROJECT';
 englishCopy['Utvalda case']='Selected cases';
 englishCopy['Duro, AcadeMedia och Aether']='Duro, AcadeMedia and Aether';
 englishCopy['Visar tre utvalda case']='Showing three selected cases';
+englishCopy['FILTRERA PROJEKT']='FILTER PROJECTS';
+englishCopy['Visar 3 av 13 projekt']='Showing 3 of 13 projects';
+englishCopy['3 UTVALDA']='3 SELECTED';
 englishCopy['03 / PROJEKT']='03 / PROJECTS';
 englishCopy['Arbeten genom']='Work through';
 englishCopy['olika perspektiv.']='different perspectives.';
