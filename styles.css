@@ -778,5 +778,7 @@ main{width:100%;max-width:none}
   .work>.project-lens .lens-controls button[aria-pressed="true"],.work>.project-lens .lens-controls button[aria-pressed="true"]:hover{background:var(--offwhite)!important;color:#253126!important;border-color:var(--offwhite);box-shadow:none!important}
   .work>.project{grid-template-columns:54px minmax(0,1.45fr) minmax(280px,.8fr) 44px;min-height:166px;padding-left:24px;padding-right:24px}
   .work>.project:hover,.work>.project:focus-visible{padding-left:30px;padding-right:30px}
-  .work>.project .arrow{justify-self:end;text-align:center}
+  .work>.project .arrow{justify-self:end;text-align:center;transform:translateX(-42px)}
+  .work>.project:hover .arrow,.work>.project:focus-visible .arrow{transform:translate(-42px,5px)}
+  .work>.project[aria-expanded="true"] .arrow,.work>.project.lab-toggle[aria-expanded="true"] .arrow{transform:translateX(-42px) rotate(180deg)}
 }
