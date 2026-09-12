@@ -765,3 +765,18 @@ body:not([data-lens="selected"]) .work-filter-feedback{display:none}
 main{width:100%;max-width:none}
 .intro,.about,.work,.skills,.music{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
 .nav{left:0;width:100vw}
+
+/* Desktop project index: a focused column instead of a full-width control panel. */
+@media(min-width:801px){
+  .work>.section-head,.work>.project-lens,.work>.project,.work>.project-inline-case,.work>.aether-case.project-inline-case,.work>.project-more{max-width:1240px}
+  .work>.section-head{grid-template-columns:150px minmax(0,1.35fr) minmax(260px,.65fr);gap:34px}
+  .work>.project-lens{margin-bottom:18px;background:transparent!important}
+  .work>.project-lens>div:first-child{padding:0 0 16px;border-bottom:0}
+  .work>.project-lens .lens-controls{display:flex;width:auto;gap:8px;padding:0;background:transparent;overflow:visible}
+  .work>.project-lens .lens-controls button{width:auto;min-height:42px;padding:0 17px;border:1px solid rgba(244,243,239,.18);color:#d7dbd3;font-size:11px;letter-spacing:.075em;opacity:.7;white-space:nowrap}
+  .work>.project-lens .lens-controls button:hover{border-color:rgba(244,243,239,.48);opacity:1}
+  .work>.project-lens .lens-controls button[aria-pressed="true"],.work>.project-lens .lens-controls button[aria-pressed="true"]:hover{background:var(--offwhite)!important;color:#253126!important;border-color:var(--offwhite);box-shadow:none!important}
+  .work>.project{grid-template-columns:54px minmax(0,1.45fr) minmax(280px,.8fr) 44px;min-height:166px;padding-left:24px;padding-right:24px}
+  .work>.project:hover,.work>.project:focus-visible{padding-left:30px;padding-right:30px}
+  .work>.project .arrow{justify-self:end;text-align:center}
+}
