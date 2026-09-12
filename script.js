@@ -40,6 +40,20 @@ if(mykoRow&&mykoPanel){
   };
   grannPanel.addEventListener('toggle',()=>{if(grannPanel.open)loadGrannfejdenModels()});
 }
+
+const mykoIframe=mykoPanel?.querySelector('.myko-frame iframe[data-src]');
+const loadMykoGame=()=>{
+  if(!mykoIframe||mykoIframe.hasAttribute('src'))return;
+  const frame=mykoIframe.closest('.myko-frame');
+  frame?.setAttribute('aria-busy','true');
+  mykoIframe.addEventListener('load',()=>frame?.removeAttribute('aria-busy'),{once:true});
+  mykoIframe.src=mykoIframe.dataset.src;
+};
+mykoPanel?.addEventListener('toggle',()=>{if(mykoPanel.open)loadMykoGame()});
+if(location.hash==='#myko'){
+  mykoPanel.open=true;
+  loadMykoGame();
+}
 const depths = [...document.querySelectorAll('[data-depth]')];
 let tx=0,ty=0,cx=0,cy=0;
 window.addEventListener('pointermove',e=>{ tx=(e.clientX/innerWidth-.5)*2; ty=(e.clientY/innerHeight-.5)*2; cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
