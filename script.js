@@ -152,6 +152,11 @@ if(aetherLead&&!document.querySelector('#aether .aether-quickfacts')){
   quickfacts.innerHTML='<p><span>PROJEKTTYP</span>LAB och grupprojekt inom speculative design.</p><p><span>MITT ANSVAR</span>Idéutveckling, visuellt språk, prompting och att forma delarna till en sammanhängande upplevelse.</p><p><span>LEVERANS</span>Ett framtidskoncept gestaltat genom prototyper, film, ljud och kritisk reflektion.</p>';
   aetherLead.insertAdjacentElement('afterend',quickfacts);
 }
+const aetherIntroFilm=document.querySelector('#aether .aether-film');
+if(aetherLead&&aetherIntroFilm){
+  aetherIntroFilm.classList.add('aether-intro-film');
+  aetherLead.insertAdjacentElement('afterend',aetherIntroFilm);
+}
 projectRows.forEach(row=>{
   const id=row.getAttribute('href')?.slice(1);
   const meta=row.querySelector('.project-title p');
@@ -387,7 +392,7 @@ projectRows.forEach(row=>{
     if(id==='aether'&&!panel.querySelector('.case-process-gallery')){
       const gallery=document.createElement('section');gallery.className='case-process-gallery aether-process-gallery';gallery.setAttribute('aria-label','Processmaterial');
       gallery.innerHTML='<figure><img src="assets/cases/aether-process.webp" alt="Aethers produktionsprocess från skiss till efterbearbetning" loading="lazy" decoding="async"><figcaption><span>01</span>Från klassiska wireframes till AI visualisering, ljud och efterbearbetning</figcaption></figure><figure><img src="assets/cases/aether-reflection.webp" alt="Aethers utveckling från utopisk vision till sårbarhetsanalys" loading="lazy" decoding="async"><figcaption><span>02</span>Handledarfeedback flyttade fokus mot etik, risker och kritisk reflektion</figcaption></figure>';
-      panel.querySelector('.aether-film')?.insertAdjacentElement('beforebegin',gallery);
+      panel.querySelector('.aether-outcomes')?.insertAdjacentElement('beforebegin',gallery);
     }
   }
   row.insertAdjacentElement('afterend',panel);

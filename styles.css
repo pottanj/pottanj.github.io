@@ -806,6 +806,11 @@ main{width:100%;max-width:none}
 .work>.aether-case .aether-process-gallery{width:100%;margin:0 0 72px}
 .work>.aether-case .aether-film{margin:0 0 72px;opacity:1;transform:none}
 .work>.aether-case .aether-outcomes{opacity:1;transform:none}
+.work>.aether-case .aether-intro-film{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;align-items:start;margin:52px 0 44px;padding:28px 0 0;border-top:1px solid rgba(238,230,215,.2)}
+.work>.aether-case .aether-intro-film>div{padding-top:6px}
+.work>.aether-case .aether-intro-film>div p{margin:0 0 12px;color:#b7ca8d;font-size:9px;font-weight:700;letter-spacing:.18em}
+.work>.aether-case .aether-intro-film>div h3{margin:0;color:var(--offwhite);font-size:20px;font-weight:500;line-height:1.15}
+.work>.aether-case .aether-intro-film iframe{display:block;width:100%;aspect-ratio:16/9;border:1px solid rgba(238,230,215,.22);background:#0b100c;box-shadow:0 28px 70px rgba(5,10,6,.32)}
 
 /* Clickable case imagery and full-size viewer. */
 .case-card img.case-zoomable,.aether-case img.case-zoomable{cursor:zoom-in}
@@ -825,5 +830,6 @@ body.has-lightbox{overflow:hidden}
   .work>.aether-case .aether-body{grid-template-columns:1fr;margin:54px 0}
   .work>.aether-case .aether-body article,.work>.aether-case .aether-body article:nth-child(n){min-height:0;padding:28px 24px 34px}
   .work>.aether-case .aether-body h3{margin-top:42px}
+  .work>.aether-case .aether-intro-film{grid-template-columns:1fr;gap:20px;margin-top:40px;padding-top:22px}
   .image-lightbox-close{top:12px;right:12px}
 }
