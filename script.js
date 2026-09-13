@@ -755,6 +755,37 @@ Object.assign(englishCopy,{
   'Ett framtidskoncept gestaltat genom prototyper, film, ljud och kritisk reflektion.':'A future-facing concept expressed through prototypes, film, sound and critical reflection.'
 });
 
+const imageLightbox=document.createElement('dialog');
+imageLightbox.className='image-lightbox';
+imageLightbox.setAttribute('aria-label','Förstorad projektbild');
+imageLightbox.innerHTML='<div class="image-lightbox-inner"><button class="image-lightbox-close" type="button" aria-label="Stäng bildvisaren">×</button><img alt=""><p></p></div>';
+document.body.appendChild(imageLightbox);
+const lightboxImage=imageLightbox.querySelector('img');
+const lightboxCaption=imageLightbox.querySelector('p');
+const closeImageLightbox=()=>{imageLightbox.close();document.body.classList.remove('has-lightbox')};
+const openImageLightbox=image=>{
+  lightboxImage.src=image.currentSrc||image.src;
+  lightboxImage.alt=image.alt||'';
+  lightboxCaption.textContent=image.closest('figure')?.querySelector('figcaption')?.textContent.trim()||image.alt||'';
+  imageLightbox.showModal();
+  document.body.classList.add('has-lightbox');
+};
+document.querySelectorAll('.case-card img,.aether-case img').forEach(image=>{
+  image.classList.add('case-zoomable');
+  image.setAttribute('role','button');
+  image.tabIndex=0;
+  image.setAttribute('aria-label',`Öppna större bild: ${image.alt||'projektbild'}`);
+  image.addEventListener('click',()=>openImageLightbox(image));
+  image.addEventListener('keydown',event=>{
+    if(event.key!=='Enter'&&event.key!==' ')return;
+    event.preventDefault();
+    openImageLightbox(image);
+  });
+});
+imageLightbox.querySelector('.image-lightbox-close').addEventListener('click',closeImageLightbox);
+imageLightbox.addEventListener('click',event=>{if(event.target===imageLightbox)closeImageLightbox()});
+imageLightbox.addEventListener('close',()=>document.body.classList.remove('has-lightbox'));
+
 const originalText=new WeakMap();
 const translatableNodes=[];
 const textWalker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(node){return node.parentElement?.closest('script,style')||!node.nodeValue.trim()?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}});
@@ -780,7 +811,9 @@ const accessibleEnglish={
   'Pontus Joelsson på Spotify':'Pontus Joelsson on Spotify',
   'MYKO, ett spelbart 2D plattformsspel av AP-Games':'MYKO, a playable 2D platform game by AP-Games',
   'Kodbyggda 3D-modeller från Grannfejden':'Code-built 3D models from Grannfejden',
-  'Processmaterial':'Process material'
+  'Processmaterial':'Process material',
+  'Förstorad projektbild':'Enlarged project image',
+  'Stäng bildvisaren':'Close image viewer'
 };
 function setPortfolioLanguage(language){
   document.documentElement.lang=language;
@@ -792,6 +825,7 @@ function setPortfolioLanguage(language){
     if(alt!==null)element.setAttribute('alt',language==='en'?(accessibleEnglish[alt]||alt):alt);
     if(title!==null)element.setAttribute('title',language==='en'?(accessibleEnglish[title]||title):title);
   });
+  document.querySelectorAll('.case-zoomable').forEach(image=>image.setAttribute('aria-label',`${language==='en'?'Open larger image':'Öppna större bild'}: ${image.alt||(language==='en'?'project image':'projektbild')}`));
   const skipLink=document.querySelector('.skip-link');
   if(skipLink)skipLink.textContent=language==='en'?'Skip to main content':'Hoppa till huvudinnehållet';
   languageButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.lang===language)));

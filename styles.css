@@ -789,3 +789,41 @@ main{width:100%;max-width:none}
   .work>.project:hover .arrow,.work>.project:focus-visible .arrow{transform:translate(-42px,5px)}
   .work>.project[aria-expanded="true"] .arrow,.work>.project.lab-toggle[aria-expanded="true"] .arrow{transform:translateX(-42px) rotate(180deg)}
 }
+
+/* Aether: compact case rhythm matching the rest of the portfolio. */
+.work>.aether-case.project-inline-case{padding:clamp(52px,6vw,88px);background:radial-gradient(circle at 82% 10%,rgba(183,202,141,.1),transparent 30%),#172218}
+.work>.aether-case .aether-head{grid-template-columns:170px minmax(0,1fr) 48px;align-items:end;gap:32px;padding:0 0 48px}
+.work>.aether-case .aether-head>p{margin:0 0 10px}
+.work>.aether-case .aether-head h2{font-size:clamp(60px,7vw,104px);line-height:.84}
+.work>.aether-case .aether-close{display:grid;width:46px;height:46px;place-items:center;margin:0 0 5px;padding:0;border:1px solid rgba(244,243,239,.35);border-radius:50%;font-size:0}
+.work>.aether-case .aether-close:before{content:"×";font-size:25px;font-weight:400;line-height:1}
+.work>.aether-case .aether-lead{max-width:850px;margin:48px 0 0;color:var(--offwhite);font-size:clamp(25px,3vw,42px);line-height:1.18}
+.work>.aether-case .aether-quickfacts{margin:44px 0 0}
+.work>.aether-case .aether-body{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin:72px 0;padding:1px;background:rgba(238,230,215,.15)}
+.work>.aether-case .aether-body article,.work>.aether-case .aether-body article:nth-child(n){min-height:280px;padding:28px;border:0;background:#1d2a20;opacity:1;transform:none}
+.work>.aether-case .aether-body h3{max-width:300px;margin:62px 0 18px;font-size:clamp(25px,2.7vw,38px);line-height:1.04;letter-spacing:-.035em}
+.work>.aether-case .aether-body p{margin:0;font-size:13px;line-height:1.65}
+.work>.aether-case .aether-process-gallery{width:100%;margin:0 0 72px}
+.work>.aether-case .aether-film{margin:0 0 72px;opacity:1;transform:none}
+.work>.aether-case .aether-outcomes{opacity:1;transform:none}
+
+/* Clickable case imagery and full-size viewer. */
+.case-card img.case-zoomable,.aether-case img.case-zoomable{cursor:zoom-in}
+.case-card img.case-zoomable:hover,.aether-case img.case-zoomable:hover{filter:saturate(1) contrast(1.04);transform:scale(1.012)}
+.image-lightbox{width:min(94vw,1500px);max-width:none;padding:0;border:0;background:transparent;color:#f4f3ef;overflow:visible}
+.image-lightbox::backdrop{background:rgba(8,13,9,.92);backdrop-filter:blur(8px)}
+.image-lightbox-inner{position:relative;display:grid;gap:14px;margin:auto}
+.image-lightbox img{display:block;width:auto;max-width:94vw;height:auto;max-height:86vh;margin:auto;object-fit:contain;box-shadow:0 28px 90px rgba(0,0,0,.46)}
+.image-lightbox p{max-width:min(90vw,900px);margin:0 auto;color:#e3e4df;font-size:13px;line-height:1.5;text-align:center}
+.image-lightbox-close{position:fixed;z-index:2;top:20px;right:24px;width:48px;height:48px;border:1px solid rgba(244,243,239,.5);border-radius:50%;background:#172218;color:#f4f3ef;font-size:25px;line-height:1;cursor:pointer}
+body.has-lightbox{overflow:hidden}
+@media(max-width:800px){
+  .work>.aether-case.project-inline-case{padding:48px 20px}
+  .work>.aether-case .aether-head{grid-template-columns:1fr 46px;gap:22px}
+  .work>.aether-case .aether-head>p{grid-column:1/-1}
+  .work>.aether-case .aether-head h2{font-size:56px}
+  .work>.aether-case .aether-body{grid-template-columns:1fr;margin:54px 0}
+  .work>.aether-case .aether-body article,.work>.aether-case .aether-body article:nth-child(n){min-height:0;padding:28px 24px 34px}
+  .work>.aether-case .aether-body h3{margin-top:42px}
+  .image-lightbox-close{top:12px;right:12px}
+}
