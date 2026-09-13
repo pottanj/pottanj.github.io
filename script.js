@@ -8,6 +8,15 @@ if(mykoRow&&mykoPanel){
   mykoRow.querySelector('.project-question').textContent='Ett spelbart skogsäventyr med fokus på rörelse, onboarding och tydlig återkoppling.';
   mykoPanel.querySelector(':scope>summary').textContent='MYKO';
   mykoPanel.querySelector('.game-design-intro')?.remove();
+  const mykoPlay=mykoPanel.querySelector('.myko-play');
+  const mykoControls=mykoPanel.querySelector('.myko-controls');
+  if(mykoPlay&&mykoControls&&!mykoPanel.querySelector('.myko-story')){
+    const mykoStory=document.createElement('section');
+    mykoStory.className='myko-story';
+    mykoStory.setAttribute('aria-label','Om MYKO-projektet');
+    mykoStory.innerHTML=`<div class="myko-story-facts"><p><span>TIDSRAM</span>3 intensiva dagar</p><p><span>SAMARBETE</span>Gemensamt ansvar genom hela processen</p><p><span>LEVERANS</span>Ett färdigt och spelbart webbspel</p></div><div class="myko-story-lead"><span>FRÅN IDÉ TILL SPELBART SPEL</span><p>Under tre dagar tog gruppen MYKO från en gemensam idé till ett spelbart skogsäventyr. Koncept, spelmekanik, visuell form, implementation och löpande justeringar utvecklades tillsammans.</p></div><div class="myko-story-process"><article><span>01 / MÅL</span><h4>En tydlig väg in i spelet.</h4><p>Spelaren skulle snabbt förstå hur världen fungerar och kunna lära sig genom att röra sig och prova, utan en lång introduktion.</p></article><article><span>02 / DESIGNBESLUT</span><h4>Rörelse som bär upplevelsen.</h4><p>Stegar, dubbelhopp, stugan och ficklampan ger spelaren tydliga handlingar, variation och direkt återkoppling i skogsmiljön.</p></article><article><span>03 / LÄRDOM</span><h4>Tre dagar kräver gemensamt fokus.</h4><p>Den korta tidsramen gjorde prioritering avgörande. Små iterationer och delat ansvar hjälpte gruppen att nå en sammanhängande, spelbar helhet.</p></article></div>`;
+    mykoControls.insertAdjacentElement('beforebegin',mykoStory);
+  }
   const grannRow=mykoRow.cloneNode(true);
   grannRow.href='#grannfejden';
   grannRow.querySelector('.project-no').textContent='14';
@@ -19,8 +28,13 @@ if(mykoRow&&mykoPanel){
   grannPanel.className='case-card';
   grannPanel.id='grannfejden';
   grannPanel.innerHTML=`<summary>Grannfejden</summary><div class="case-content"><section class="grannfejden-case" aria-labelledby="grannfejden-title"><div class="grannfejden-head"><span>SPEL 02 / GRUPPROJEKT / 3D</span><div><h3 id="grannfejden-title">Grannfejden.</h3><p>Ett spelprojekt där ett bostadskvarter blir en social spelplats. Mitt arbete låg i mötet mellan visuell gestaltning, rumslig struktur och interaktion, från tidiga idéer till en fungerande 3D-miljö.</p><a class="grannfejden-link" href="https://grannfejden.elmerlion.chatgpt.site/" target="_blank" rel="noopener noreferrer">SPELA GRANNFEJDEN ↗</a></div></div><figure class="grannfejden-hero-visual"><img loading="lazy" decoding="async" src="assets/cases/grannfejden-hero.png" alt="Grannfejdens startskärm med kvarteret Björkbacken och lobbyval"><figcaption><span>01 / ENTRÉ</span>Spelets första möte sätter tonen och gör vägen in i kvarteret tydlig.</figcaption></figure><div class="grannfejden-role"><p><span>MIN ROLL</span>Visuell och interaktiv utveckling</p><p><span>FOKUS</span>3D-miljö, systemlogik och spelarrespons</p><p><span>ARBETSSÄTT</span>Skiss, modellering och iteration i fungerande miljö</p></div><div class="grannfejden-gallery"><figure class="is-wide"><img loading="lazy" decoding="async" src="assets/cases/grannfejden-gameplay.png" alt="Kortval i Grannfejden med resurser, handlingar och guide"><figcaption><span>02 / SPELSYSTEM</span>Kort, resurser och omedelbar återkoppling gör konsekvenserna av spelarens val synliga.</figcaption></figure><figure><img loading="lazy" decoding="async" src="assets/cases/grannfejden-onboarding.png" alt="Grannfejdens snabbguide för spelets tre huvudmoment"><figcaption><span>03 / ONBOARDING</span>Tre steg introducerar spelets loop utan att bryta berättelsens ton.</figcaption></figure></div><div class="grannfejden-contribution"><article><span>01 / KONCEPT</span><h4>Från idé till spelvärld.</h4><p>Jag tog en drivande roll i idéarbetet och var med och satte ton, inramning och känsla för kvarteret Björkbacken.</p></article><article><span>02 / RUMSLIG STRUKTUR</span><h4>En miljö som går att läsa.</h4><p>Jag planerade spelytans tomter och objektplacering för att skapa en balanserad miljö där spelaren enkelt kan orientera sig.</p></article><article><span>03 / VISUELL FORM</span><h4>Ett sammanhållet uttryck.</h4><p>Jag samordnade spelets visuella stil och skapade 3D-objekt som byggde upp atmosfär och ett tydligt formspråk.</p></article><article><span>04 / SYSTEM</span><h4>Modulärt utan kollisioner.</h4><p>Jag utvecklade logiken för hur husdelar och uppgraderingar kan byggas på under spelets gång utan att krocka med tomtens övriga objekt.</p></article><article><span>05 / INTERAKTION</span><h4>Små svar som skapar närvaro.</h4><p>Jag formgav föreningsmötet och utvecklade detaljer där karaktärernas huvuden följer spelarens musrörelser. Jag animerade även fåglar med naturliga flygmönster.</p></article></div><div class="grannfejden-cards" aria-label="Exempel på spelkort"><figure><img loading="lazy" decoding="async" src="assets/cases/grannfejden-card-upgrade.webp" alt="Illustration för ett uppgraderingskort"></figure><figure><img loading="lazy" decoding="async" src="assets/cases/grannfejden-card-event.webp" alt="Illustration för ett händelsekort"></figure><figure><img loading="lazy" decoding="async" src="assets/cases/grannfejden-card-sabotage.webp" alt="Illustration för ett sabotagekort"></figure><p><span>04 / VISUELLT SYSTEM</span>Kortfamiljerna använder samma varma illustrationsstil men skiljs åt genom funktion, färg och innehåll.</p></div><div class="grannfejden-learning"><span>VAD JAG TAR VIDARE</span><p>Projektet visade hur tydliga ramar och lekfull respons behöver fungera tillsammans. Genom att testa skisser direkt i 3D-miljön kunde vi snabbt se vad som fungerade, och hur subtil visuell återkoppling hjälper spelaren att känna sig närvarande.</p></div></section></div>`;
+  const grannKicker=grannPanel.querySelector('.grannfejden-head>span');
+  const grannIntro=grannPanel.querySelector('.grannfejden-head p');
+  if(grannKicker)grannKicker.textContent='SPEL 02 / GRUPPROJEKT / 3D / 7 DAGAR';
+  if(grannIntro)grannIntro.textContent='Ett spelprojekt där ett bostadskvarter blir en social spelplats. Spelet utvecklades gemensamt från idé till spelbar version under sju intensiva dagar. Mina tydligaste bidrag låg i mötet mellan visuell gestaltning, rumslig struktur och interaktion.';
   const roleSummary=grannPanel.querySelector('.grannfejden-role');
   if(roleSummary){
+    roleSummary.innerHTML='<p><span>TIDSRAM</span>7 intensiva dagar</p><p><span>SAMARBETE</span>Gemensamt från idé till spelbar version</p><p><span>MITT FOKUS</span>3D-miljö, systemlogik och spelarrespons</p>';
     roleSummary.insertAdjacentHTML('afterend',`<section class="grannfejden-social" aria-labelledby="grannfejden-social-title"><span>02 / SOCIAL NÄRVARO</span><div><h4 id="grannfejden-social-title">Från brädspel till digital gemenskap.</h4><p>Att översätta känslan av ett brädspel till en digital värld handlar om närvaro och gemenskap. Röstchatt och interaktiva element skapar den sociala närhet som annars uppstår när människor sitter mitt emot varandra.</p><p>Processen balanserade tydliga strukturer för spelytan med lekfulla, responsiva animationer. Genom tidig iteration mellan skisser och 3D-modeller såg vi snabbt hur visuell respons hjälper spelaren att förstå vad som händer och vilja stanna kvar.</p><div class="grannfejden-modes"><span><b>ONLINE</b>Spela tillsammans med integrerad röstchatt.</span><span><b>OFFLINE</b>Möt AI-spelare med tydliga och trovärdiga beteenden.</span></div></div></section>`);
   }
   const formerCardArt=grannPanel.querySelector('.grannfejden-cards');
@@ -679,6 +693,26 @@ englishCopy['Research, struktur, samarbete och AI är fyra kompetensområden som
 englishCopy['Meningsfulla val, regelverk för interaktioner och analys av core loops.']='Meaningful choices, interaction rules and analysis of core loops.';
 englishCopy['SPEL 01']='GAME 01';
 englishCopy['MYKO, en spelbar webbupplevelse av AP-Games.']='MYKO, a playable web experience by AP-Games.';
+englishCopy['TIDSRAM']='TIMEFRAME';
+englishCopy['3 intensiva dagar']='3 intensive days';
+englishCopy['7 intensiva dagar']='7 intensive days';
+englishCopy['SAMARBETE']='COLLABORATION';
+englishCopy['Gemensamt ansvar genom hela processen']='Shared responsibility throughout the process';
+englishCopy['Gemensamt från idé till spelbar version']='Collaborative from idea to playable version';
+englishCopy['LEVERANS']='DELIVERABLE';
+englishCopy['Ett färdigt och spelbart webbspel']='A complete, playable web game';
+englishCopy['FRÅN IDÉ TILL SPELBART SPEL']='FROM IDEA TO PLAYABLE GAME';
+englishCopy['Under tre dagar tog gruppen MYKO från en gemensam idé till ett spelbart skogsäventyr. Koncept, spelmekanik, visuell form, implementation och löpande justeringar utvecklades tillsammans.']='Over three days, the team took MYKO from a shared idea to a playable woodland adventure. Concept, mechanics, visual design, implementation and ongoing refinements were developed together.';
+englishCopy['En tydlig väg in i spelet.']='A clear way into the game.';
+englishCopy['Spelaren skulle snabbt förstå hur världen fungerar och kunna lära sig genom att röra sig och prova, utan en lång introduktion.']='Players should quickly understand how the world works and learn by moving and experimenting, without a long introduction.';
+englishCopy['02 / DESIGNBESLUT']='02 / DESIGN DECISIONS';
+englishCopy['Rörelse som bär upplevelsen.']='Movement that carries the experience.';
+englishCopy['Stegar, dubbelhopp, stugan och ficklampan ger spelaren tydliga handlingar, variation och direkt återkoppling i skogsmiljön.']='Ladders, double jumps, the cabin and flashlight give players clear actions, variety and immediate feedback in the woodland environment.';
+englishCopy['Tre dagar kräver gemensamt fokus.']='Three days demand shared focus.';
+englishCopy['Den korta tidsramen gjorde prioritering avgörande. Små iterationer och delat ansvar hjälpte gruppen att nå en sammanhängande, spelbar helhet.']='The short timeframe made prioritisation essential. Small iterations and shared ownership helped the team create a coherent, playable whole.';
+englishCopy['MITT FOKUS']='MY FOCUS';
+englishCopy['SPEL 02 / GRUPPROJEKT / 3D / 7 DAGAR']='GAME 02 / TEAM PROJECT / 3D / 7 DAYS';
+englishCopy['Ett spelprojekt där ett bostadskvarter blir en social spelplats. Spelet utvecklades gemensamt från idé till spelbar version under sju intensiva dagar. Mina tydligaste bidrag låg i mötet mellan visuell gestaltning, rumslig struktur och interaktion.']='A game project where a residential neighbourhood becomes a social play space. The game was developed collaboratively from idea to playable version over seven intensive days. My clearest contributions connected visual design, spatial structure and interaction.';
 englishCopy['VISA ENDAST UTVALDA CASE']='SHOW SELECTED CASES ONLY';
 englishCopy['03 / LAB / GRUPPROJEKT']='03 / LAB / GROUP PROJECT';
 englishCopy['Utvalda case']='Selected cases';
