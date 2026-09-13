@@ -797,7 +797,7 @@ main{width:100%;max-width:none}
 .work>.aether-case .aether-head h2{font-size:clamp(60px,7vw,104px);line-height:.84}
 .work>.aether-case .aether-close{display:grid;width:46px;height:46px;place-items:center;margin:0 0 5px;padding:0;border:1px solid rgba(244,243,239,.35);border-radius:50%;font-size:0}
 .work>.aether-case .aether-close:before{content:"×";font-size:25px;font-weight:400;line-height:1}
-.work>.aether-case .aether-lead{max-width:850px;margin:48px 0 0;color:var(--offwhite);font-size:clamp(25px,3vw,42px);line-height:1.18}
+.work>.aether-case .aether-lead{max-width:900px;margin:44px 0 0;color:var(--offwhite-soft);font-size:clamp(18px,1.8vw,25px);line-height:1.45}
 .work>.aether-case .aether-quickfacts{margin:44px 0 0}
 .work>.aether-case .aether-body{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin:72px 0;padding:1px;background:rgba(238,230,215,.15)}
 .work>.aether-case .aether-body article,.work>.aether-case .aether-body article:nth-child(n){min-height:280px;padding:28px;border:0;background:#1d2a20;opacity:1;transform:none}
@@ -806,8 +806,8 @@ main{width:100%;max-width:none}
 .work>.aether-case .aether-process-gallery{width:100%;margin:0 0 72px}
 .work>.aether-case .aether-film{margin:0 0 72px;opacity:1;transform:none}
 .work>.aether-case .aether-outcomes{opacity:1;transform:none}
-.work>.aether-case .aether-intro-film{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;align-items:start;margin:52px 0 44px;padding:28px 0 0;border-top:1px solid rgba(238,230,215,.2)}
-.work>.aether-case .aether-intro-film>div{padding-top:6px}
+.work>.aether-case .aether-intro-film{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;align-items:start;margin:48px 0 0}
+.work>.aether-case .aether-intro-film>div{padding-top:8px}
 .work>.aether-case .aether-intro-film>div p{margin:0 0 12px;color:#b7ca8d;font-size:9px;font-weight:700;letter-spacing:.18em}
 .work>.aether-case .aether-intro-film>div h3{margin:0;color:var(--offwhite);font-size:20px;font-weight:500;line-height:1.15}
 .work>.aether-case .aether-intro-film iframe{display:block;width:100%;aspect-ratio:16/9;border:1px solid rgba(238,230,215,.22);background:#0b100c;box-shadow:0 28px 70px rgba(5,10,6,.32)}

@@ -153,9 +153,10 @@ if(aetherLead&&!document.querySelector('#aether .aether-quickfacts')){
   aetherLead.insertAdjacentElement('afterend',quickfacts);
 }
 const aetherIntroFilm=document.querySelector('#aether .aether-film');
-if(aetherLead&&aetherIntroFilm){
+const aetherHead=document.querySelector('#aether .aether-head');
+if(aetherHead&&aetherIntroFilm){
   aetherIntroFilm.classList.add('aether-intro-film');
-  aetherLead.insertAdjacentElement('afterend',aetherIntroFilm);
+  aetherHead.insertAdjacentElement('afterend',aetherIntroFilm);
 }
 projectRows.forEach(row=>{
   const id=row.getAttribute('href')?.slice(1);
