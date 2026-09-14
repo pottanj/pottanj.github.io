@@ -848,3 +848,4 @@ body.has-lightbox{overflow:hidden}
 @media(min-width:801px){.work>.project-lens .lens-controls button:last-child{border:1px solid rgba(244,243,239,.18)}}
 .nav .nav-meta,.nav .nav-actions,.nav .mark span{mix-blend-mode:normal}
 .hero-environment-image{inset:0;width:100%;height:100%}
+.nav{position:absolute}
