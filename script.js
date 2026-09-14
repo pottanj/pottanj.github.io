@@ -698,6 +698,7 @@ englishCopy['SPEL 01']='GAME 01';
 englishCopy['MYKO, en spelbar webbupplevelse av AP-Games.']='MYKO, a playable web experience by AP-Games.';
 englishCopy['TIDSRAM']='TIMEFRAME';
 englishCopy['3 intensiva dagar']='3 intensive days';
+englishCopy['Struktur & form']='Structure & design';
 englishCopy['7 intensiva dagar']='7 intensive days';
 englishCopy['SAMARBETE']='COLLABORATION';
 englishCopy['Gemensamt ansvar genom hela processen']='Shared responsibility throughout the process';
