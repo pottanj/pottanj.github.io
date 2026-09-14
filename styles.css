@@ -837,10 +837,10 @@ body.has-lightbox{overflow:hidden}
 }
 
 /* Mobile hero header: colour only supports the actions, while the identity stays clear of the portrait. */
-.nav-actions{justify-self:end;padding:8px 9px 8px 16px;border:1px solid rgba(244,243,239,.2);border-radius:999px;background:#172218;box-shadow:0 8px 28px rgba(7,13,8,.2);backdrop-filter:blur(12px)}
+.nav-actions{justify-self:end;padding:0;border:0;background:transparent;box-shadow:none;backdrop-filter:none}
 @media(max-width:700px){
   .nav{align-items:center;padding:14px 16px;background:transparent}
-  .nav-actions{gap:8px;padding-left:14px}
+  .nav-actions{gap:8px;padding:0}
   .nav-actions>a{font-size:8px;line-height:1;letter-spacing:.12em;white-space:nowrap}
   .language-switch{padding:2px;background:rgba(8,16,10,.22)}
   .eyebrow{top:92px;left:20px;width:155px;transform:none;font-size:8px;line-height:1.55;letter-spacing:.24em;text-align:left}
