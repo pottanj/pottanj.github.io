@@ -846,3 +846,4 @@ body.has-lightbox{overflow:hidden}
   .eyebrow{top:92px;left:20px;width:155px;transform:none;font-size:8px;line-height:1.55;letter-spacing:.24em;text-align:left}
 }
 @media(min-width:801px){.work>.project-lens .lens-controls button:last-child{border:1px solid rgba(244,243,239,.18)}}
+.nav .nav-meta,.nav .nav-actions,.nav .mark span{mix-blend-mode:normal}
