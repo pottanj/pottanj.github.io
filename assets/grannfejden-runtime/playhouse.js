@@ -26,7 +26,9 @@ export function buildPlayhouse(parent, materials, facadeColor) {
         return facade;
     };
     box(house, floorMaterial, 0, 0.05, -0.75, 2.4, 0.1, 1.5, true);
-    box(house, floorMaterial, -0.6, 0.05, 0.5, 1.2, 0.1, 1, true);
+    // Let the porch floor continue slightly beneath the front wall. A flush
+    // edge left a visible dark seam when the model was viewed at an angle.
+    box(house, floorMaterial, -0.6, 0.05, 0.46, 1.2, 0.1, 1.08, true);
     addFacade(-1.175, 0.65, -0.75, 0.05, 1.1, 1.5);
     addFacade(1.175, 0.65, -0.75, 0.05, 1.1, 1.5);
     addFacade(0, 0.65, -1.475, 2.4, 1.1, 0.05);
@@ -78,9 +80,11 @@ export function buildPlayhouse(parent, materials, facadeColor) {
     const porchGable = gable(house, wall, 1.2, 0.05, 1.2, 0.6);
     porchGable.position.set(-0.6, 1.2, 0.975);
     porchGable.userData.playhouseFacade = true;
-    addRoofPanel(-0.95, 1.45, 0.48, 1, 1.4, 0, Math.PI / 4);
-    addRoofPanel(-0.25, 1.45, 0.48, 1, 1.4, 0, -Math.PI / 4);
-    box(house, trim, -0.6, 1.82, 0.48, 0.08, 0.1, 1.52, true);
+    // Extend the porch roof beneath the main roof instead of ending exactly at
+    // the facade. The overlap removes the gap between porch and house.
+    addRoofPanel(-0.95, 1.45, 0.4, 1, 1.56, 0, Math.PI / 4);
+    addRoofPanel(-0.25, 1.45, 0.4, 1, 1.56, 0, -Math.PI / 4);
+    box(house, trim, -0.6, 1.82, 0.4, 0.08, 0.1, 1.68, true);
     for (const [x, z] of [
         [
             -1.15,
