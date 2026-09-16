@@ -84,6 +84,9 @@ export function buildPlayhouse(parent, materials, facadeColor) {
     // the short side. The inner plane and ridge continue beneath the main roof
     // to close the valley without exposing a roof edge through the wall.
     addRoofPanel(-0.95, 1.45, 0.58, 1, 1.2, 0, Math.PI / 4);
+    // A narrower rear continuation closes the outer valley while remaining
+    // inside the house footprint, so it cannot protrude through the end wall.
+    addRoofPanel(-0.88, 1.52, -0.285, 0.78, 0.53, 0, Math.PI / 4);
     addRoofPanel(-0.25, 1.45, 0.33, 1, 1.7, 0, -Math.PI / 4);
     box(house, trim, -0.6, 1.82, 0.33, 0.08, 0.1, 1.82, true);
     for (const [x, z] of [
