@@ -80,11 +80,11 @@ export function buildPlayhouse(parent, materials, facadeColor) {
     const porchGable = gable(house, wall, 1.2, 0.05, 1.2, 0.6);
     porchGable.position.set(-0.6, 1.2, 0.975);
     porchGable.userData.playhouseFacade = true;
-    // Extend the porch roof beneath the main roof instead of ending exactly at
-    // the facade. The overlap removes the gap between porch and house.
-    addRoofPanel(-0.95, 1.45, 0.33, 1, 1.7, 0, Math.PI / 4);
-    addRoofPanel(-0.25, 1.45, 0.33, 1, 1.7, 0, -Math.PI / 4);
-    box(house, trim, -0.6, 1.82, 0.3, 0.08, 0.1, 1.88, true);
+    // Stop the visible porch roof at the front facade. Extending the whole
+    // panel through the wall created a dark roof edge across the short side.
+    addRoofPanel(-0.95, 1.45, 0.58, 1, 1.2, 0, Math.PI / 4);
+    addRoofPanel(-0.25, 1.45, 0.58, 1, 1.2, 0, -Math.PI / 4);
+    box(house, trim, -0.6, 1.82, 0.58, 0.08, 0.1, 1.32, true);
     for (const [x, z] of [
         [
             -1.15,
