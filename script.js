@@ -86,8 +86,20 @@ if(location.hash==='#myko'){
 }
 const depths = [...document.querySelectorAll('[data-depth]')];
 let tx=0,ty=0,cx=0,cy=0;
-window.addEventListener('pointermove',e=>{ tx=(e.clientX/innerWidth-.5)*2; ty=(e.clientY/innerHeight-.5)*2; cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
-function frame(){ cx+=(tx-cx)*.06; cy+=(ty-cy)*.06; depths.forEach(el=>{ const d=Number(el.dataset.depth); el.style.setProperty('--mx',`${cx*d*75}px`); el.style.setProperty('--my',`${cy*d*42}px`); }); requestAnimationFrame(frame); } frame();
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+let pointerFrame=0;
+function frame(){
+  pointerFrame=0;
+  if(document.hidden||reducedMotion.matches)return;
+  cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;
+  depths.forEach(el=>{const d=Number(el.dataset.depth);el.style.setProperty('--mx',`${cx*d*75}px`);el.style.setProperty('--my',`${cy*d*42}px`)});
+  if(Math.abs(tx-cx)>.01||Math.abs(ty-cy)>.01)pointerFrame=requestAnimationFrame(frame);
+}
+window.addEventListener('pointermove',e=>{
+  tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2;
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  if(!pointerFrame&&!reducedMotion.matches)pointerFrame=requestAnimationFrame(frame);
+},{passive:true});
 document.querySelectorAll('.project').forEach(el=>{el.addEventListener('mouseenter',()=>cursor.classList.add('active'));el.addEventListener('mouseleave',()=>cursor.classList.remove('active'))});
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('seen')}),{threshold:.12}); document.querySelectorAll('.project,.section-head,.project-lens>div,.lens-controls button,.project-more,.aether-head,.aether-body article,.aether-film,.aether-outcomes,.about h2,.about-grid,.skills-intro,.skills-grid article,.tools,.experience-proof,.music-copy,.spotify-player').forEach((el,i)=>{el.style.setProperty('--delay',`${(i%4)*70}ms`);observer.observe(el)});
 const progress=document.querySelector('.scroll-progress');
@@ -97,16 +109,29 @@ document.querySelectorAll('.project').forEach(card=>card.addEventListener('point
 const labToggle=document.querySelector('.lab-toggle');
 const aetherCase=document.querySelector('#aether');
 const aetherClose=document.querySelector('.aether-close');
+const aetherIframe=aetherCase?.querySelector('iframe[data-src]');
+const loadAetherFilm=()=>{if(aetherIframe&&!aetherIframe.src)aetherIframe.src=aetherIframe.dataset.src};
+const stopAetherFilm=()=>{if(aetherIframe?.src){aetherIframe.removeAttribute('src')}};
 function setAether(open,{move=true}={}){
   if(!labToggle||!aetherCase)return;
   labToggle.setAttribute('aria-expanded',String(open));
   aetherCase.setAttribute('aria-hidden',String(!open));
   aetherCase.classList.toggle('is-collapsed',!open);
+  if(open)loadAetherFilm();else stopAetherFilm();
   if(move){(open?aetherCase:labToggle).scrollIntoView({behavior:'smooth',block:'start'});}
 }
 labToggle?.addEventListener('click',event=>{event.preventDefault();setAether(labToggle.getAttribute('aria-expanded')!=='true');});
 aetherClose?.addEventListener('click',()=>setAether(false));
 if(location.hash==='#aether')setAether(true,{move:false});
+const spotifyIframe=document.querySelector('.spotify-player iframe[data-src]');
+if(spotifyIframe){
+  const spotifyObserver=new IntersectionObserver(entries=>{
+    if(!entries.some(entry=>entry.isIntersecting))return;
+    spotifyIframe.src=spotifyIframe.dataset.src;
+    spotifyObserver.disconnect();
+  },{rootMargin:'500px 0px'});
+  spotifyObserver.observe(spotifyIframe);
+}
 document.querySelectorAll('.case-card').forEach(card=>card.addEventListener('toggle',()=>{
   if(!card.open)return;
   document.querySelectorAll('.case-card[open]').forEach(other=>{if(other!==card)other.open=false;});
@@ -172,7 +197,7 @@ projectRows.forEach((row,index)=>{
   row.classList.toggle('is-extra',index>=3);
 });
 const projectConceptImages={duro:'assets/cases/duro-process.webp',academedia:'assets/cases/academedia-hero.webp',kommunal:'assets/cases/academedia-decisions.webp'};
-if(character) character.src='assets/hero-character-clean.webp';
+if(character) character.src='assets/hero-character-clean-perf.webp';
 
 const projectKinds={duro:'VERKLIG UPPDRAGSGIVARE',academedia:'VERKLIG UPPDRAGSGIVARE',storyapp:'VERKLIG UPPDRAGSGIVARE',myko:'SPELBART PROJEKT'};
 const aetherLead=document.querySelector('#aether .aether-lead');
@@ -438,6 +463,7 @@ function closeProjectPanels(except=null){
     row.setAttribute('aria-expanded','false');
     if(panel instanceof HTMLDetailsElement)panel.open=false;
     else panel?.classList.add('is-collapsed');
+    if(panel===aetherCase)stopAetherFilm();
   });
 }
 workSection?.addEventListener('click',event=>{
@@ -451,6 +477,7 @@ workSection?.addEventListener('click',event=>{
   row.setAttribute('aria-expanded',String(!isOpen));
   if(panel instanceof HTMLDetailsElement)panel.open=!isOpen;
   else{panel.classList.toggle('is-collapsed',isOpen);panel.setAttribute('aria-hidden',String(isOpen));}
+  if(panel===aetherCase){if(!isOpen)loadAetherFilm();else stopAetherFilm();}
   if(!isOpen)setTimeout(()=>row.scrollIntoView({behavior:'smooth',block:'start'}),50);
 },true);
 document.querySelector('.case-library')?.classList.add('is-merged');
@@ -534,7 +561,7 @@ lensButtons.forEach(button=>button.addEventListener('pointermove',event=>{
 setProjectLens('selected');
 
 // Clean high-resolution artwork with genuine transparency.
-if(character) character.src='assets/hero-character-clean.webp';
+if(character) character.src='assets/hero-character-clean-perf.webp';
 
 // The game-design case now contains both course projects.
 const gameDesignContent=document.querySelector('#myko .case-content');
