@@ -61,9 +61,25 @@ const loadMykoGame=()=>{
   const frame=mykoIframe.closest('.myko-frame');
   frame?.setAttribute('aria-busy','true');
   mykoIframe.addEventListener('load',()=>frame?.removeAttribute('aria-busy'),{once:true});
-  mykoIframe.src=mykoIframe.dataset.src;
+  mykoIframe.src=mykoIframe.dataset.resumeSrc||mykoIframe.dataset.src;
 };
-mykoPanel?.addEventListener('toggle',()=>{if(mykoPanel.open)loadMykoGame()});
+const stopMykoGame=()=>{
+  if(!mykoIframe?.hasAttribute('src'))return;
+  const currentSrc=mykoIframe.getAttribute('src');
+  if(currentSrc&&currentSrc!=='about:blank')mykoIframe.dataset.resumeSrc=currentSrc;
+  mykoIframe.src='about:blank';
+  mykoIframe.removeAttribute('src');
+  mykoIframe.closest('.myko-frame')?.removeAttribute('aria-busy');
+};
+mykoPanel?.addEventListener('toggle',()=>{
+  if(mykoPanel.open&&!document.hidden)loadMykoGame();
+  else stopMykoGame();
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)stopMykoGame();
+  else if(mykoPanel?.open)loadMykoGame();
+});
+window.addEventListener('pagehide',stopMykoGame);
 if(location.hash==='#myko'){
   mykoPanel.open=true;
   loadMykoGame();
