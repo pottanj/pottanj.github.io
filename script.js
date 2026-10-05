@@ -53,6 +53,28 @@ if(mykoRow&&mykoPanel){
     document.head.appendChild(modelRenderer);
   };
   grannPanel.addEventListener('toggle',()=>{if(grannPanel.open)loadGrannfejdenModels()});
+
+  const demokratiRow=mykoRow.cloneNode(true);
+  demokratiRow.href='#demokratikollen';
+  demokratiRow.querySelector('.project-no').textContent='15';
+  demokratiRow.querySelector('h3').textContent='Demokratikollen';
+  demokratiRow.querySelector('.project-title p').textContent='Spelpsykologi · Spelifiering · User Testing';
+  demokratiRow.querySelector('.project-question').textContent='När politiska löften blir ett begripligt system för återkoppling, ansvar och förtroende.';
+  grannRow.insertAdjacentElement('afterend',demokratiRow);
+
+  const demokratiPanel=document.createElement('details');
+  demokratiPanel.className='case-card';
+  demokratiPanel.id='demokratikollen';
+  demokratiPanel.innerHTML=`<summary>Demokratikollen</summary><div class="case-content"><section class="demokratikollen-case" aria-labelledby="demokratikollen-title">
+    <header class="demokratikollen-head"><span>SPELPSYKOLOGI OCH SPELIFIERING / GRUPPROJEKT</span><h3 id="demokratikollen-title">Demokratikollen.</h3><p>En opartisk tjänst som gör det enklare att följa vad som händer med politiska vallöften. Spelifieringen används som en väg in i informationen – inte som en ersättning för fakta.</p></header>
+    <figure class="demokratikollen-dashboard"><img loading="lazy" decoding="async" src="assets/cases/demokratikollen-dashboard.png" alt="Demokratikollens dashboard där partier jämförs utifrån poäng och genomförda vallöften"><figcaption><span>01 / ÖVERBLICK</span>Poäng, löftesstatus och placering gör förändring över tid möjlig att förstå och granska.</figcaption></figure>
+    <div class="demokratikollen-facts"><p><span>UPPDRAG</span>Göra politisk uppföljning mer transparent och tillgänglig.</p><p><span>MIN ROLL</span>Testledare och observatör i användartester.</p><p><span>METOD</span>Prototyp, beteendesimulering och kvalitativa tester.</p></div>
+    <div class="demokratikollen-loop"><div><span>02 / ÅTERKOPPLINGSLOOPEN</span><h4>Från löfte till synlig konsekvens.</h4><p>Partier formulerar vallöften, löftena bedöms efter mandatperioden och poängen förändras utifrån vad som faktiskt kan styrkas. Resultatet blir synligt inför nästa valcykel.</p></div><ol><li><b>01</b>Formulera löften</li><li><b>02</b>Följ genomförandet</li><li><b>03</b>Bedöm bevisen</li><li><b>04</b>Visa konsekvensen</li></ol></div>
+    <div class="demokratikollen-findings"><article><span>BETEENDETEST</span><h4>Synlig risk förändrade strategin.</h4><p>När poängförlusterna blev tydliga valde partierna färre och mer avgränsade löften. Ett parti gick från två löften till ett och därefter inget alls.</p></article><article><span>ANVÄNDARTEST</span><h4>Belöningar kan också vilseleda.</h4><p>Badges skapade ett positivt intryck trots brutna löften. Statusmärken, minuspoäng och jämförelsevyn behövde förklaras tydligare.</p></article><article><span>DESIGNRIKTNING</span><h4>Fakta först, spelifiering därefter.</h4><p>Bedömda och ännu inte bedömda löften skiljs tydligare åt, informationsmängden minskas och varje poängförändring kopplas till ett granskningsbart underlag.</p></article></div>
+    <div class="demokratikollen-insight"><span>VIKTIGASTE INSIKTEN</span><p>Spelifiering skapar inte automatiskt förståelse. När ämnet är demokrati måste varje poäng, badge och placering vara transparent – annars riskerar systemet att påverka förtroendet i stället för att förklara det.</p></div>
+    <div class="demokratikollen-film"><div><span>03 / PROTOTYPEN</span><h4>Se tjänsten i rörelse.</h4><p>Videon visar hur valkompass, partiprofiler och uppföljningen av löften hänger samman.</p></div><video controls preload="none" poster="assets/cases/demokratikollen-dashboard.png"><source src="assets/cases/demokratikollen-demo.mp4" type="video/mp4">Din webbläsare kan inte spela upp videon.</video></div>
+  </section></div>`;
+  grannPanel.insertAdjacentElement('afterend',demokratiPanel);
 }
 
 const mykoIframe=mykoPanel?.querySelector('.myko-frame iframe[data-src]');
@@ -199,7 +221,7 @@ projectRows.forEach((row,index)=>{
 const projectConceptImages={duro:'assets/cases/duro-process.webp',academedia:'assets/cases/academedia-hero.webp',kommunal:'assets/cases/academedia-decisions.webp'};
 if(character) character.src='assets/hero-character-clean-perf.webp';
 
-const projectKinds={duro:'VERKLIG UPPDRAGSGIVARE',academedia:'VERKLIG UPPDRAGSGIVARE',storyapp:'VERKLIG UPPDRAGSGIVARE',myko:'SPELBART PROJEKT'};
+const projectKinds={duro:'VERKLIG UPPDRAGSGIVARE',academedia:'VERKLIG UPPDRAGSGIVARE',storyapp:'VERKLIG UPPDRAGSGIVARE',myko:'SPELBART PROJEKT',demokratikollen:'KURSPROJEKT'};
 const aetherLead=document.querySelector('#aether .aether-lead');
 if(aetherLead&&!document.querySelector('#aether .aether-quickfacts')){
   const quickfacts=document.createElement('div');
@@ -407,7 +429,7 @@ projectRows.forEach(row=>{
   if(panel instanceof HTMLDetailsElement){
     panel.open=false;
     const content=panel.querySelector('.case-content');
-    if(content&&!content.querySelector('.case-expanded-head')){
+    if(content&&id!=='demokratikollen'&&!content.querySelector('.case-expanded-head')){
       const head=document.createElement('div');head.className='case-expanded-head';
       const rowMeta=row.querySelector('.project-title p');
       const baseMeta=rowMeta?.firstChild?.nodeValue?.trim()||'';
@@ -482,6 +504,14 @@ workSection?.addEventListener('click',event=>{
 },true);
 document.querySelector('.case-library')?.classList.add('is-merged');
 const mykoFullscreen=document.querySelector('.myko-fullscreen');
+const demokratiCasePanel=document.querySelector('#demokratikollen');
+const demokratiCaseVideo=demokratiCasePanel?.querySelector('video');
+demokratiCasePanel?.addEventListener('toggle',()=>{
+  if(!demokratiCasePanel.open&&demokratiCaseVideo){
+    demokratiCaseVideo.pause();
+    demokratiCaseVideo.currentTime=0;
+  }
+});
 mykoFullscreen?.addEventListener('click',event=>{
   event.preventDefault();event.stopPropagation();
   const frame=document.querySelector('.myko-frame');
@@ -496,10 +526,11 @@ const projectLens={
   ui:['duro','academedia','kommunal','storyapp','webportfolio','parking'],
   service:['foodora','cinema','parking'],
   game:['myko','grannfejden','gamecraft'],
+  gamification:['demokratikollen'],
   concept:['aether','gamecraft','wmg','cinema']
 };
-const lensLabels={selected:'Utvalda case',all:'Alla projekt',research:'Research',ui:'UX/UI',service:'Tjänstedesign',game:'Speldesign',concept:'Koncept'};
-const lensLabelsEnglish={selected:'Selected cases',all:'All projects',research:'Research',ui:'UX/UI',service:'Service design',game:'Game design',concept:'Concepts'};
+const lensLabels={selected:'Utvalda case',all:'Alla projekt',research:'Research',ui:'UX/UI',service:'Tjänstedesign',game:'Speldesign',gamification:'Spelpsykologi och spelifiering',concept:'Koncept'};
+const lensLabelsEnglish={selected:'Selected cases',all:'All projects',research:'Research',ui:'UX/UI',service:'Service design',game:'Game design',gamification:'Game psychology and gamification',concept:'Concepts'};
 const lensButtons=[...document.querySelectorAll('[data-lens]')];
 const lensStatus=document.querySelector('.lens-status');
 const workFilterFeedback=document.querySelector('.work-filter-feedback');
@@ -896,6 +927,30 @@ document.querySelectorAll('.case-card img,.aether-case img').forEach(image=>{
 imageLightbox.querySelector('.image-lightbox-close').addEventListener('click',closeImageLightbox);
 imageLightbox.addEventListener('click',event=>{if(event.target===imageLightbox)closeImageLightbox()});
 imageLightbox.addEventListener('close',()=>document.body.classList.remove('has-lightbox'));
+
+Object.assign(englishCopy,{
+  'SPELIFIERING':'GAMIFICATION',
+  'KURSPROJEKT':'COURSE PROJECT',
+  'Case inom research, UX/UI, tjänstedesign, speldesign, spelifiering och konceptutveckling.':'Cases across research, UX/UI, service design, game design, gamification and concept development.',
+  'Spelpsykologi och spelifiering':'Game psychology and gamification',
+  'När politiska löften blir ett begripligt system för återkoppling, ansvar och förtroende.':'Turning political promises into a clear system for feedback, accountability and trust.',
+  'SPELPSYKOLOGI OCH SPELIFIERING / GRUPPROJEKT':'GAME PSYCHOLOGY AND GAMIFICATION / TEAM PROJECT',
+  'En opartisk tjänst som gör det enklare att följa vad som händer med politiska vallöften. Spelifieringen används som en väg in i informationen – inte som en ersättning för fakta.':'A non-partisan service that makes it easier to follow what happens to political promises. Gamification provides a way into the information — not a substitute for facts.',
+  '01 / ÖVERBLICK':'01 / OVERVIEW',
+  'Poäng, löftesstatus och placering gör förändring över tid möjlig att förstå och granska.':'Points, promise status and ranking make change over time easier to understand and scrutinise.',
+  'Göra politisk uppföljning mer transparent och tillgänglig.':'Make political follow-up more transparent and accessible.',
+  'Testledare och observatör i användartester.':'Test facilitator and observer in user testing.',
+  'Prototyp, beteendesimulering och kvalitativa tester.':'Prototype, behavioural simulation and qualitative testing.',
+  '02 / ÅTERKOPPLINGSLOOPEN':'02 / THE FEEDBACK LOOP',
+  'Från löfte till synlig konsekvens.':'From promise to visible consequence.',
+  'Partier formulerar vallöften, löftena bedöms efter mandatperioden och poängen förändras utifrån vad som faktiskt kan styrkas. Resultatet blir synligt inför nästa valcykel.':'Parties formulate promises, the promises are assessed after the term and scores change according to what can actually be verified. The result becomes visible before the next election cycle.',
+  'Formulera löften':'Formulate promises','Följ genomförandet':'Track delivery','Bedöm bevisen':'Assess the evidence','Visa konsekvensen':'Show the consequence',
+  'BETEENDETEST':'BEHAVIOURAL TEST','Synlig risk förändrade strategin.':'Visible risk changed the strategy.','När poängförlusterna blev tydliga valde partierna färre och mer avgränsade löften. Ett parti gick från två löften till ett och därefter inget alls.':'When score losses became visible, parties chose fewer and more focused promises. One party went from two promises to one and then none at all.',
+  'ANVÄNDARTEST':'USER TEST','Belöningar kan också vilseleda.':'Rewards can also mislead.','Badges skapade ett positivt intryck trots brutna löften. Statusmärken, minuspoäng och jämförelsevyn behövde förklaras tydligare.':'Badges created a positive impression despite broken promises. Status labels, negative points and the comparison view needed clearer explanations.',
+  'DESIGNRIKTNING':'DESIGN DIRECTION','Fakta först, spelifiering därefter.':'Facts first, gamification second.','Bedömda och ännu inte bedömda löften skiljs tydligare åt, informationsmängden minskas och varje poängförändring kopplas till ett granskningsbart underlag.':'Assessed and not-yet-assessed promises are more clearly distinguished, information density is reduced and each score change is linked to reviewable evidence.',
+  'VIKTIGASTE INSIKTEN':'KEY INSIGHT','Spelifiering skapar inte automatiskt förståelse. När ämnet är demokrati måste varje poäng, badge och placering vara transparent – annars riskerar systemet att påverka förtroendet i stället för att förklara det.':'Gamification does not automatically create understanding. When the subject is democracy, every point, badge and ranking must be transparent — otherwise the system risks shaping trust instead of explaining it.',
+  '03 / PROTOTYPEN':'03 / THE PROTOTYPE','Se tjänsten i rörelse.':'See the service in motion.','Videon visar hur valkompass, partiprofiler och uppföljningen av löften hänger samman.':'The video shows how the voting compass, party profiles and promise tracking connect.','Din webbläsare kan inte spela upp videon.':'Your browser cannot play this video.'
+});
 
 const originalText=new WeakMap();
 const translatableNodes=[];
